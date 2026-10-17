@@ -19,11 +19,11 @@ public class Application {
     @Bean
     public CommandLineRunner loadData(CustomerRepository repository) {
         return (args) -> {
-            repository.save(new Customer("Jack", "Bauer"));
-            repository.save(new Customer("Chloe", "O'Brian"));
-            repository.save(new Customer("Kim", "Bauer"));
-            repository.save(new Customer("David", "Palmer"));
-            repository.save(new Customer("Michelle", "Dessler"));
+            repository.save(new Customer("Jack", "Bauer", "jack.bauer@example.com"));
+            repository.save(new Customer("Chloe", "O'Brian", "chloe.obrian@example.com"));
+            repository.save(new Customer("Kim", "Bauer", "kim.bauer@example.com"));
+            repository.save(new Customer("David", "Palmer", "david.palmer@example.com"));
+            repository.save(new Customer("Michelle", "Dessler", "michelle.dessler@example.com"));
 
             log.info("Customers found with findAll():");
             for (Customer customer : repository.findAll()) {
