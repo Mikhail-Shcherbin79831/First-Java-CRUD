@@ -1,0 +1,15 @@
+target/
+node_modules/
+frontend/generated/
+src/main/bundles/
+package.json
+package-lock.json
+pnpm-lock.yaml
+vite.config.ts
+vite.generated.ts
+types.d.ts
+tsconfig.json
+.idea/
+.vscode/
+*.iml
+.DS_Store
