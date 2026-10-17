@@ -7,8 +7,10 @@ import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
+import com.vaadin.flow.data.validator.EmailValidator;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.UIScope;
 
@@ -22,6 +24,7 @@ public class CustomerEditor extends VerticalLayout implements KeyNotifier {
 
     TextField firstName = new TextField("First name");
     TextField lastName = new TextField("Last name");
+    EmailField email = new EmailField("Email");
 
     Button save = new Button("Save", VaadinIcon.CHECK.create());
     Button cancel = new Button("Cancel");
@@ -34,8 +37,11 @@ public class CustomerEditor extends VerticalLayout implements KeyNotifier {
     public CustomerEditor(CustomerRepository repository) {
         this.repository = repository;
 
-        add(firstName, lastName, actions);
+        add(firstName, lastName, email, actions);
 
+        binder.forField(email)
+                .withValidator(new EmailValidator("Please enter a valid email address", true))
+                .bind(Customer::getEmail, Customer::setEmail);
         binder.bindInstanceFields(this);
 
         setSpacing(true);
@@ -57,6 +63,9 @@ public class CustomerEditor extends VerticalLayout implements KeyNotifier {
     }
 
     void save() {
+        if (!binder.validate().isOk()) {
+            return;
+        }
         repository.save(customer);
         changeHandler.onChange();
     }
